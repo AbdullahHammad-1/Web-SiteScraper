@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Scraper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .form-box, .result-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .scrollable-link {
+            max-width: 300px; /* Set max-width for the link cell */
+            white-space: nowrap; /* Prevent text from wrapping */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .scrollable-link:hover {
+            overflow-x: auto; /* Show scrollbar on hover */
+        }
+        .scrollable-link::-webkit-scrollbar {
+            height: 4px;
+        }
+        .scrollable-link::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 2px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1>Site Scraper</h1>
+            <form action="{% url 'scrape' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="site" placeholder="Enter website URL" required>
+                <input type="submit" value="Scrape Links">
+            </form>
+        </div>
+
+        {% if data %}
+        <div class="result-box">
+            <h1>Scraped Links</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Link Text</th>
+                        <th>Link URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for link in data %}
+                    <tr>
+                        <td>{{ link.name }}</td>
+                        <td><div class="scrollable-link"><a href="{{ link.address }}" target="_blank">{{ link.address }}</a></div></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No links found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Scraper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007bff;
+            padding: 15px;
+            text-align: center;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .form-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home' %}">Home</a>
+    </div>
+
+    <div class="container">
+        <div class="form-box">
+            <h1>Site Scraper</h1>
+            <form action="{% url 'scrape' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="site" placeholder="Enter website URL" required>
+                <input type="submit" value="Scrape Links">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
